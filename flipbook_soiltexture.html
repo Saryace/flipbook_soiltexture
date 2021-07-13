@@ -25,7 +25,7 @@ class: center, middle, inverse, title-slide
 # Triángulos de textura en R
 ## Laboratorio Biofísica de Suelos
 ### Sara Acevedo
-### 06 / 07 / 2021
+### 13 / 07 / 2021
 
 ---
 
@@ -80,8 +80,8 @@ class: inverse
 
 ## Soil Biophysics Laboratory
 
-<div id="htmlwidget-8b465926f4756185a8af" style="width:100%;height:360px;" class="leaflet html-widget"></div>
-<script type="application/json" data-for="htmlwidget-8b465926f4756185a8af">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]},{"method":"addPopups","args":[-33.4995699,-70.6149164,"Soil Biophysics Lab",null,null,{"maxWidth":300,"minWidth":50,"autoPan":true,"keepInView":false,"closeButton":false,"className":""}]}],"limits":{"lat":[-33.4995699,-33.4995699],"lng":[-70.6149164,-70.6149164]},"setView":[[-33.4995699,-70.6149164],17,[]]},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-3483adb9b6b650c83b47" style="width:100%;height:360px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-3483adb9b6b650c83b47">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]},{"method":"addPopups","args":[-33.4995699,-70.6149164,"Soil Biophysics Lab",null,null,{"maxWidth":300,"minWidth":50,"autoPan":true,"keepInView":false,"closeButton":false,"className":""}]}],"limits":{"lat":[-33.4995699,-33.4995699],"lng":[-70.6149164,-70.6149164]},"setView":[[-33.4995699,-70.6149164],17,[]]},"evals":[],"jsHooks":[]}</script>
 ---
 class: middle
 
@@ -90,8 +90,26 @@ class: middle
 representacion de los porcentajes de arena, limo y arcilla
 
 ---
+##Para empezar, instalamos estos 4 paquetes
 
-##Para empezar, creamos un dataframe de ejemplo
+```r
+install.packages(c("tidyverse", #incluye ggplot2
+                   "ggtern", #graficos ternarios
+                   "soiltexture",# paquete para graficar textura
+                   "RColorBrewer")) # paletas de colores
+```
+
+##Luego, los cargamos
+
+```r
+install.packages(c("tidyverse", #incluye ggplot2
+                   "ggtern", #graficos ternarios
+                   "soiltexture",# paquete para graficar textura
+                   "RColorBrewer")) # paletas de colores
+```
+---
+
+##Creamos un dataframe de ejemplo
 
 
 ```r
@@ -838,7 +856,7 @@ head(USDA, 10)
 ```r
 library(dplyr)
 USDA_texto &lt;- USDA  %&gt;% group_by(Label) %&gt;%
-  summarise_if(is.numeric, mean, na.rm = TRUE)
+  summarise_if(is.numeric, mean)
   
 USDA_texto 
 ```
@@ -879,19 +897,20 @@ ggplot(data = USDA, aes(
   geom_text(data = USDA_texto,
             aes(label = Label),
             color = 'black',
-            size = 2) +
+            size = 2,
+            family = "Times") +
   geom_point(
     data = datos_suelo,
     aes(
       x = arena,
       y = arcilla,
       z = limo
-    )
+    ), 
   ) +
   theme_showarrows() +
   theme_clockwise() +
-  theme(text = element_text(family = "Helvetica")) +
-  guides(fill=FALSE, color=FALSE)
+  theme(text = element_text(family = "Times")) +
+  guides(fill=FALSE)
 ```
 ]
 
@@ -985,7 +1004,8 @@ ggplot(data = USDA, aes(
   geom_text(data = USDA_texto,  #&lt;&lt;
             aes(label = Label),  #&lt;&lt;
             color = 'black',  #&lt;&lt;
-            size = 2)   #&lt;&lt;
+            size = 2,  #&lt;&lt;
+            family = "Times")   #&lt;&lt;
 ```
 ]
  
@@ -1015,14 +1035,15 @@ ggplot(data = USDA, aes(
   geom_text(data = USDA_texto,
             aes(label = Label),
             color = 'black',
-            size = 2) +
+            size = 2,
+            family = "Times") +
   geom_point(  #&lt;&lt;
     data = datos_suelo,  #&lt;&lt;
     aes(  #&lt;&lt;
       x = arena,  #&lt;&lt;
       y = arcilla,  #&lt;&lt;
       z = limo  #&lt;&lt;
-    )  #&lt;&lt;
+    ),  #&lt;&lt;
   )   #&lt;&lt;
 ```
 ]
@@ -1053,14 +1074,15 @@ ggplot(data = USDA, aes(
   geom_text(data = USDA_texto,
             aes(label = Label),
             color = 'black',
-            size = 2) +
+            size = 2,
+            family = "Times") +
   geom_point(
     data = datos_suelo,
     aes(
       x = arena,
       y = arcilla,
       z = limo
-    )
+    ),
   ) +
   theme_showarrows()   #&lt;&lt;
 ```
@@ -1092,14 +1114,15 @@ ggplot(data = USDA, aes(
   geom_text(data = USDA_texto,
             aes(label = Label),
             color = 'black',
-            size = 2) +
+            size = 2,
+            family = "Times") +
   geom_point(
     data = datos_suelo,
     aes(
       x = arena,
       y = arcilla,
       z = limo
-    )
+    ),
   ) +
   theme_showarrows() +
   theme_clockwise()   #&lt;&lt;
@@ -1132,18 +1155,19 @@ ggplot(data = USDA, aes(
   geom_text(data = USDA_texto,
             aes(label = Label),
             color = 'black',
-            size = 2) +
+            size = 2,
+            family = "Times") +
   geom_point(
     data = datos_suelo,
     aes(
       x = arena,
       y = arcilla,
       z = limo
-    )
+    ),
   ) +
   theme_showarrows() +
   theme_clockwise() +
-  theme(text = element_text(family = "Helvetica"))   #&lt;&lt;
+  theme(text = element_text(family = "Times"))   #&lt;&lt;
 ```
 ]
  
@@ -1173,19 +1197,20 @@ ggplot(data = USDA, aes(
   geom_text(data = USDA_texto,
             aes(label = Label),
             color = 'black',
-            size = 2) +
+            size = 2,
+            family = "Times") +
   geom_point(
     data = datos_suelo,
     aes(
       x = arena,
       y = arcilla,
       z = limo
-    )
+    ),
   ) +
   theme_showarrows() +
   theme_clockwise() +
-  theme(text = element_text(family = "Helvetica")) +
-  guides(fill=FALSE, color=FALSE)  #&lt;&lt;
+  theme(text = element_text(family = "Times")) +
+  guides(fill=FALSE)  #&lt;&lt;
 ```
 ]
  
@@ -1232,8 +1257,8 @@ triangulo_cientificos &lt;-
       "Soil Judgers",
       "Digital Soil Mappers",
       "Soil Physicists",
-      "Pedometricians",
-      "Pedometricians",
+      "Pedo-\nmetricians",
+      "Pedo-\nmetricians",
       "Pedologists",
       "μ-morphologists",
       "Soil Ecologist",
@@ -1253,10 +1278,9 @@ ggplot(data = USDA, aes(
   coord_tern(L = "x", T = "y", R = "z") +
   geom_polygon(
     aes(fill = Label),
-    alpha = 0.0,
+    alpha = 0.5,
     size = 0.5,
-    color = "black",
-    show.legend = FALSE
+    color = "black"
   ) +
   geom_text(data = triangulo_cientificos,
             aes(label = Label),
@@ -1268,7 +1292,8 @@ ggplot(data = USDA, aes(
        zarrow = "Like worms and plants",
        xarrow = "Like computer and matemathics") +
   theme_hidetitles() +
-  theme(text = element_text(family = "Helvetica"))
+  scale_fill_brewer(palette = "Paired") +
+  guides(fill=FALSE)
 ```
 ]
 
@@ -1329,10 +1354,9 @@ ggplot(data = USDA, aes(
   coord_tern(L = "x", T = "y", R = "z") +
   geom_polygon(  #&lt;&lt;
     aes(fill = Label),  #&lt;&lt;
-    alpha = 0.0,  #&lt;&lt;
+    alpha = 0.5,  #&lt;&lt;
     size = 0.5,  #&lt;&lt;
-    color = "black",  #&lt;&lt;
-    show.legend = FALSE  #&lt;&lt;
+    color = "black"  #&lt;&lt;
   )   #&lt;&lt;
 ```
 ]
@@ -1356,10 +1380,9 @@ ggplot(data = USDA, aes(
   coord_tern(L = "x", T = "y", R = "z") +
   geom_polygon(
     aes(fill = Label),
-    alpha = 0.0,
+    alpha = 0.5,
     size = 0.5,
-    color = "black",
-    show.legend = FALSE
+    color = "black"
   ) +
   geom_text(data = triangulo_cientificos,  #&lt;&lt;
             aes(label = Label),  #&lt;&lt;
@@ -1387,10 +1410,9 @@ ggplot(data = USDA, aes(
   coord_tern(L = "x", T = "y", R = "z") +
   geom_polygon(
     aes(fill = Label),
-    alpha = 0.0,
+    alpha = 0.5,
     size = 0.5,
-    color = "black",
-    show.legend = FALSE
+    color = "black"
   ) +
   geom_text(data = triangulo_cientificos,
             aes(label = Label),
@@ -1419,10 +1441,9 @@ ggplot(data = USDA, aes(
   coord_tern(L = "x", T = "y", R = "z") +
   geom_polygon(
     aes(fill = Label),
-    alpha = 0.0,
+    alpha = 0.5,
     size = 0.5,
-    color = "black",
-    show.legend = FALSE
+    color = "black"
   ) +
   geom_text(data = triangulo_cientificos,
             aes(label = Label),
@@ -1452,10 +1473,9 @@ ggplot(data = USDA, aes(
   coord_tern(L = "x", T = "y", R = "z") +
   geom_polygon(
     aes(fill = Label),
-    alpha = 0.0,
+    alpha = 0.5,
     size = 0.5,
-    color = "black",
-    show.legend = FALSE
+    color = "black"
   ) +
   geom_text(data = triangulo_cientificos,
             aes(label = Label),
@@ -1488,10 +1508,9 @@ ggplot(data = USDA, aes(
   coord_tern(L = "x", T = "y", R = "z") +
   geom_polygon(
     aes(fill = Label),
-    alpha = 0.0,
+    alpha = 0.5,
     size = 0.5,
-    color = "black",
-    show.legend = FALSE
+    color = "black"
   ) +
   geom_text(data = triangulo_cientificos,
             aes(label = Label),
@@ -1525,10 +1544,9 @@ ggplot(data = USDA, aes(
   coord_tern(L = "x", T = "y", R = "z") +
   geom_polygon(
     aes(fill = Label),
-    alpha = 0.0,
+    alpha = 0.5,
     size = 0.5,
-    color = "black",
-    show.legend = FALSE
+    color = "black"
   ) +
   geom_text(data = triangulo_cientificos,
             aes(label = Label),
@@ -1540,12 +1558,88 @@ ggplot(data = USDA, aes(
        zarrow = "Like worms and plants",
        xarrow = "Like computer and matemathics") +
   theme_hidetitles() +
-  theme(text = element_text(family = "Helvetica"))  #&lt;&lt;
+  scale_fill_brewer(palette = "Paired")   #&lt;&lt;
 ```
 ]
  
 .panel2-plot-label-7-auto[
 &lt;img src="flipbook_soiltexture_files/figure-html/plot-label-7_auto_09_output-1.png" width="360" /&gt;
+]
+
+---
+count: false
+ 
+###Solo por diversión
+.panel1-plot-label-7-auto[
+
+```r
+ggplot(data = USDA, aes(
+  y = Clay,
+  x = Sand,
+  z = Silt
+)) +
+  coord_tern(L = "x", T = "y", R = "z") +
+  geom_polygon(
+    aes(fill = Label),
+    alpha = 0.5,
+    size = 0.5,
+    color = "black"
+  ) +
+  geom_text(data = triangulo_cientificos,
+            aes(label = Label),
+            color = 'black',
+            size = 2) +
+  theme_showarrows() +
+  theme_clockwise() +
+  labs(yarrow = "Like camping and maps",
+       zarrow = "Like worms and plants",
+       xarrow = "Like computer and matemathics") +
+  theme_hidetitles() +
+  scale_fill_brewer(palette = "Paired") +
+  guides(fill=FALSE)  #&lt;&lt;
+```
+]
+ 
+.panel2-plot-label-7-auto[
+&lt;img src="flipbook_soiltexture_files/figure-html/plot-label-7_auto_10_output-1.png" width="360" /&gt;
+]
+
+---
+count: false
+ 
+###Solo por diversión
+.panel1-plot-label-7-auto[
+
+```r
+ggplot(data = USDA, aes(
+  y = Clay,
+  x = Sand,
+  z = Silt
+)) +
+  coord_tern(L = "x", T = "y", R = "z") +
+  geom_polygon(
+    aes(fill = Label),
+    alpha = 0.5,
+    size = 0.5,
+    color = "black"
+  ) +
+  geom_text(data = triangulo_cientificos,
+            aes(label = Label),
+            color = 'black',
+            size = 2) +
+  theme_showarrows() +
+  theme_clockwise() +
+  labs(yarrow = "Like camping and maps",
+       zarrow = "Like worms and plants",
+       xarrow = "Like computer and matemathics") +
+  theme_hidetitles() +
+  scale_fill_brewer(palette = "Paired") +
+  guides(fill=FALSE)
+```
+]
+ 
+.panel2-plot-label-7-auto[
+&lt;img src="flipbook_soiltexture_files/figure-html/plot-label-7_auto_11_output-1.png" width="360" /&gt;
 ]
 
 &lt;style&gt;

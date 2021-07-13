@@ -93,8 +93,24 @@ class: middle
 representacion de los porcentajes de arena, limo y arcilla
 
 ---
+##Para empezar, instalamos estos 4 paquetes
+```{r, eval=FALSE}
+install.packages(c("tidyverse", #incluye ggplot2
+                   "ggtern", #graficos ternarios
+                   "soiltexture",# paquete para graficar textura
+                   "RColorBrewer")) # paletas de colores
+```
 
-##Para empezar, creamos un dataframe de ejemplo
+##Luego, los cargamos
+```{r, eval=FALSE}
+install.packages(c("tidyverse", #incluye ggplot2
+                   "ggtern", #graficos ternarios
+                   "soiltexture",# paquete para graficar textura
+                   "RColorBrewer")) # paletas de colores
+```
+---
+
+##Creamos un dataframe de ejemplo
 
 ```{r}
 datos_suelo <- data.frame(
@@ -268,7 +284,7 @@ head(USDA, 10)
 ```{r}
 library(dplyr)
 USDA_texto <- USDA  %>% group_by(Label) %>%
-  summarise_if(is.numeric, mean, na.rm = TRUE)
+  summarise_if(is.numeric, mean)
   
 USDA_texto 
 ```
@@ -290,19 +306,20 @@ ggplot(data = USDA, aes(
   geom_text(data = USDA_texto,
             aes(label = Label),
             color = 'black',
-            size = 2) +
+            size = 2,
+            family = "Times") +
   geom_point(
     data = datos_suelo,
     aes(
       x = arena,
       y = arcilla,
       z = limo
-    )
+    ), 
   ) +
   theme_showarrows() +
   theme_clockwise() +
-  theme(text = element_text(family = "Helvetica")) +
-  guides(fill=FALSE, color=FALSE)
+  theme(text = element_text(family = "Times")) +
+  guides(fill=FALSE)
 ```
 ]
 
@@ -322,8 +339,8 @@ triangulo_cientificos <-
       "Soil Judgers",
       "Digital Soil Mappers",
       "Soil Physicists",
-      "Pedometricians",
-      "Pedometricians",
+      "Pedo-\nmetricians",
+      "Pedo-\nmetricians",
       "Pedologists",
       "μ-morphologists",
       "Soil Ecologist",
@@ -342,10 +359,9 @@ ggplot(data = USDA, aes(
   coord_tern(L = "x", T = "y", R = "z") +
   geom_polygon(
     aes(fill = Label),
-    alpha = 0.0,
+    alpha = 0.5,
     size = 0.5,
-    color = "black",
-    show.legend = FALSE
+    color = "black"
   ) +
   geom_text(data = triangulo_cientificos,
             aes(label = Label),
@@ -357,7 +373,9 @@ ggplot(data = USDA, aes(
        zarrow = "Like worms and plants",
        xarrow = "Like computer and matemathics") +
   theme_hidetitles() +
-  theme(text = element_text(family = "Helvetica"))
+  scale_fill_brewer(palette = "Paired") +
+  guides(fill=FALSE)
+
 ```
 ]
 
