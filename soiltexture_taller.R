@@ -1,13 +1,19 @@
 # Instalar los paquetes 
 
 install.packages(c("tidyverse", #incluye ggplot2
-                   "ggtern", #graficos ternarios
                    "soiltexture",# paquete para graficar textura
                    "RColorBrewer")) # paletas de colores
 
+# Instalar los paquetes ggplot y ggtern en las versiones compatibles
+remotes::install_version("ggplot2", version = "3.3.2", repos = "http://cran.us.r-project.org") #usar 3.3.2
+
+remotes::install_github("nicholasehamilton/ggtern") #usar desde git
+
+
 # Cargar los paquetes
 
-library(tidyverse)
+library(dplyr)
+library(ggplot2)
 library(ggtern)
 library(soiltexture)    
 library(RColorBrewer)
@@ -39,7 +45,7 @@ TT.plot(
 
 theme_set(theme_bw()) # dejamos definido theme
 
-datos_suelo %>%
+datos_suelo %>% 
   ggtern(aes(
     x = arena,
     y = arcilla,
@@ -80,7 +86,7 @@ data(USDA)
 head(USDA)
 
 USDA_texto <- USDA  %>% group_by(Label) %>%
-  summarise_if(is.numeric, mean, na.rm = TRUE)
+  summarise_if(is.numeric, mean)
 
 USDA_texto
 
